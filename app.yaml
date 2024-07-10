@@ -1,0 +1,11 @@
+# [START app_yaml]
+runtime: nodejs20
+
+# service: nextjs-test-deployment
+
+handlers:
+  - url: /.*
+    secure: always
+    script: auto
+
+# [END app_yaml]
