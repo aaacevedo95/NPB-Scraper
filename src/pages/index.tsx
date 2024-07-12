@@ -62,11 +62,11 @@ export default function Home() {
           className="columns is-multiline is-centered"
         >
           {htmlContents.map((html, index) => (
-            <div className="column  is-flex is-align-items-center has-text-centered is-12-mobile is-6-tablet is-4-desktop is-3-widescreen">
-              <div
-                key={index}
-                className="column is-12-mobile is-6-tablet is-4-desktop is-3-widescreen"
-              >
+            <div
+              key={index}
+              className="column  is-flex is-align-items-center has-text-centered is-12-mobile is-6-tablet is-4-desktop is-3-widescreen"
+            >
+              <div className="column is-12-mobile is-6-tablet is-4-desktop is-3-widescreen">
                 <div
                   className="box is-flex is-flex-direction-column is-align-items-center"
                   style={{ height: "100%" }}
