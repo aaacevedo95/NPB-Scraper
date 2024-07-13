@@ -3,6 +3,7 @@ import "bulma/css/bulma.min.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
+import Head from "next/head";
 
 const URL_START = "https://sports.tv.rakuten.co.jp/pacificleague/schedule/";
 
@@ -39,6 +40,12 @@ export default function Home() {
 
   return (
     <div data-theme="light">
+      <Head>
+        <title>NPBandy</title>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
+      </Head>
+
       <main className="m-4">
         <div className="container">
           {/* Header */}
