@@ -1,5 +1,3 @@
-// public/sw.js
-
 self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open("my-cache").then((cache) => {

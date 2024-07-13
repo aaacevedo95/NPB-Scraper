@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio";
 import Cors from "cors";
+import dayjs from "dayjs";
 
 // Initialize CORS middleware
 export const initMiddleware = (middleware) => {
@@ -53,7 +54,7 @@ export default async (req, res) => {
         // Adjust the image paths if necessary
         $(elem)
           .find("img")
-          .each((j, img) => {
+          .each((_, img) => {
             const src = $(img).attr("src");
             const newSrc = `/img/common/${src.split("/img/common/")[1]}`;
             $(img).attr("src", newSrc);
@@ -65,26 +66,37 @@ export default async (req, res) => {
         // Add inline styles to specific elements
         $(elem)
           .find("td")
-          .each((j, td) => {
+          .each((_, td) => {
             const tdClass = $(td).attr("class");
-            if (!tdClass?.includes("state")) {
-              $(td).attr(
-                "style",
-                "padding: 12px; font-size: 24px; font-weight: bold; font-family: 'Titillium Web',Sans-Serif;"
-              );
-            }
+
+            // if (!tdClass?.includes("state")) {
+            $(td).attr(
+              "style",
+              `color:black ; padding: 12px;  text-align:center; font-size: ${
+                !tdClass?.includes("state") ? 32 : 16
+              }px; font-weight: bold; font-family: 'Titillium Web',Sans-Serif;`
+            );
+            // }
           });
 
+        // result.push($.html(elem));
         result.push(
-          `<a href="https://npb.jp/${href}" style="text-decoration: none">${$.html(
+          `<a href="https://npb.jp/${href}" target="_blank" style="text-decoration: none">${$.html(
             elem
-          )}</div>`
-        ); // Push the HTML of each element
+          )}
+          </div>`
+        );
       });
+
+      const date = dayjs();
+      const formattedDate = date.format("YYYY-MM-DD (ddd)");
+      const rawDate = date.format("YYYYMM");
 
       res.statusCode = 200;
       return res.json({
-        data: result,
+        result,
+        formattedDate,
+        rawDate,
       });
     } catch (e) {
       console.error("Error fetching and processing HTML:", e);
