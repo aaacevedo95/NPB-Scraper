@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import Cors from "cors";
 import dayjs from "dayjs";
+import "dayjs/locale/ja";
 
 // Initialize CORS middleware
 export const initMiddleware = (middleware) => {
@@ -89,7 +90,7 @@ export default async function scraper(req, res) {
       });
 
       const date = dayjs();
-      const formattedDate = date.format("YYYY-MM-DD (ddd)");
+      const formattedDate = date.locale("ja").format("MM月DD日 ddd");
       const rawDate = date.format("YYYYMM");
 
       res.statusCode = 200;
