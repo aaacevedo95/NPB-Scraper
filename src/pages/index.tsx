@@ -86,14 +86,6 @@ export default function Home() {
           <Image src="/logo.png" width={50} height={40} alt="NPB Games" />
         </div>
         <div className="navbar-item">
-          <p
-            className="is-dark"
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            {formattedDate}
-          </p>
-        </div>
-        <div className="navbar-item">
           <a
             className="button is-primary is-dark  "
             href={`${URL_START}/${rawData}/#today`}
@@ -103,6 +95,8 @@ export default function Home() {
           </a>
         </div>
       </nav>
+
+      {/* Pull to load */}
       <div
         className="has-text-centered  is-size-7 "
         style={{ paddingTop: 70 }}
@@ -117,6 +111,10 @@ export default function Home() {
       {!isLoading && (
         <main className="m-5">
           <div className="container">
+            <p className="is-dark has-text-right" style={{ padding: 8 }}>
+              {formattedDate}
+            </p>
+
             <div className="columns is-multiline is-centered">
               {htmlContents.map((html, index) => (
                 <div
