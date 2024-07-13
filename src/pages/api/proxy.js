@@ -1,6 +1,6 @@
 // pages/api/proxy.js
 
-export default async (req, res) => {
+export default async function proxy(req, res) {
   const { url } = req.query;
 
   if (!url) {
@@ -17,4 +17,4 @@ export default async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch image" });
   }
-};
+}

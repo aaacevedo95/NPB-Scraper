@@ -28,7 +28,7 @@ const cors = initMiddleware(
   })
 );
 
-export default async (req, res) => {
+export default async function scraper(req, res) {
   await cors(req, res); // Apply CORS middleware to your route
 
   if (req.method === "GET") {
@@ -106,4 +106,4 @@ export default async (req, res) => {
       });
     }
   }
-};
+}
