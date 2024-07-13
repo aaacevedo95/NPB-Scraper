@@ -8,7 +8,7 @@ import Head from "next/head";
 
 import { usePullToRefresh } from "use-pull-to-refresh";
 
-const URL_START = "https://sports.tv.rakuten.co.jp/pacificleague/schedule/";
+const STREAM_URL = "https://sports.tv.rakuten.co.jp/pacificleague/";
 
 const MAXIMUM_PULL_LENGTH = 600;
 const REFRESH_THRESHOLD = 180;
@@ -16,10 +16,10 @@ const REFRESH_THRESHOLD = 180;
 export default function Home() {
   const [htmlContents, setHtmlContents] = useState([]);
   const [formattedDate, setFormattedDate] = useState("");
-  const [rawData, setRawData] = useState("");
   const [isLoading, setisLoading] = useState(true);
-
   const [fetchNewData, setFetchNewData] = useState(true);
+  const [teamColors, setTeamColors] = useState([]);
+
   const { isRefreshing, pullPosition } = usePullToRefresh({
     onRefresh: () => {
       handleRefetch();
@@ -28,7 +28,6 @@ export default function Home() {
     refreshThreshold: REFRESH_THRESHOLD,
   });
 
-  console.log("isRefreshing", isRefreshing);
   useEffect(() => {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
@@ -45,17 +44,16 @@ export default function Home() {
       const res = await axios.get("/api/scraper");
 
       if (res.status === 200) {
-        const { result = [], formattedDate, rawData } = res.data;
+        const { result = [], formattedDate, teams } = res.data;
         setHtmlContents(result || []);
         setFormattedDate(formattedDate);
-        setRawData(rawData);
+        setTeamColors(teams);
       }
 
       setisLoading(false);
       setFetchNewData(false);
     };
 
-    console.log("in the use eff");
     if (fetchNewData) fetchData();
   }, [fetchNewData]);
 
@@ -88,7 +86,7 @@ export default function Home() {
         <div className="navbar-item">
           <a
             className="button is-primary is-dark  "
-            href={`${URL_START}/${rawData}/#today`}
+            href={STREAM_URL}
             style={{ textDecoration: "none" }}
           >
             Pacific League Streams
@@ -116,19 +114,33 @@ export default function Home() {
             </p>
 
             <div className="columns is-multiline is-centered">
-              {htmlContents.map((html, index) => (
-                <div
-                  key={index}
-                  className="column is-12-mobile is-6-tablet is-4-desktop  "
-                >
+              {htmlContents.map((html, index) => {
+                const colorIndex1 = index * 2;
+                const colorIndex2 = index * 2 + 1;
+
+                return (
                   <div
-                    className="box is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
-                    style={{ height: "100%" }}
+                    key={index}
+                    className="column is-12-mobile is-6-tablet is-4-desktop  "
                   >
-                    <div dangerouslySetInnerHTML={{ __html: html }} />
+                    <div
+                      className="box is-flex is-flex-direction-column is-align-items-center is-justify-content-center"
+                      style={{
+                        height: "100%",
+                        background: `linear-gradient(
+                      110deg, 
+                      ${teamColors[colorIndex1]} 0%, 
+                      ${teamColors[colorIndex1]} 50%, 
+                      ${teamColors[colorIndex2]}  50%, 
+                      ${teamColors[colorIndex2]}  100%
+  )`,
+                      }}
+                    >
+                      <div dangerouslySetInnerHTML={{ __html: html }} />
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </main>

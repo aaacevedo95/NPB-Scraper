@@ -29,6 +29,21 @@ const cors = initMiddleware(
   })
 );
 
+const TEAM_COLORS = {
+  読売ジャイアンツ: "#F49C00", // Yomiuri Giants
+  横浜DeNAベイスターズ: "#004583", // Yokohama DeNA BayStars
+  中日ドラゴンズ: "#003377", // Chunichi Dragons
+  阪神タイガース: "#060606", // Hanshin Tigers
+  広島東洋カープ: "#E70012", // Hiroshima Toyo Carp
+  東京ヤクルトスワローズ: "#00A051", // Tokyo Yakult Swallows
+  北海道日本ハムファイターズ: "#016299", // Hokkaido Nippon-Ham Fighters
+  福岡ソフトバンクホークス: "#F5C700", // Fukuoka SoftBank Hawks
+  東北楽天ゴールデンイーグルス: "#943E10", // Tohoku Rakuten Golden Eagles
+  埼玉西武ライオンズ: "#AB0008", // Saitama Seibu Lions
+  千葉ロッテマリーンズ: "#E5E1E6", // Chiba Lotte Marines
+  "オリックス・バファローズ": "#000019", // Orix Buffaloes
+};
+
 export default async function scraper(req, res) {
   await cors(req, res); // Apply CORS middleware to your route
 
@@ -43,6 +58,7 @@ export default async function scraper(req, res) {
       const anchors = $("a.link_block");
 
       const result = [];
+      const teams = [];
 
       elements.each((idx, elem) => {
         if (idx > 5) return;
@@ -52,33 +68,43 @@ export default async function scraper(req, res) {
         // Get the href attribute of the anchor
         const href = anchor.attr("href");
 
-        // Adjust the image paths if necessary
-        $(elem)
-          .find("img")
-          .each((_, img) => {
-            const src = $(img).attr("src");
-            const newSrc = `/img/common/${src.split("/img/common/")[1]}`;
-            $(img).attr("src", newSrc);
-          });
-
-        // Clear inline styles for <tr> elements
-        $(elem).find("tr").removeAttr("style");
-
         // Add inline styles to specific elements
         $(elem)
           .find("td")
           .each((_, td) => {
             const tdClass = $(td).attr("class");
 
-            // if (!tdClass?.includes("state")) {
-            $(td).attr(
-              "style",
-              `color:black ; padding: 12px;  text-align:center; font-size: ${
-                !tdClass?.includes("state") ? 32 : 16
-              }px; font-weight: bold; font-family: 'Titillium Web',Sans-Serif;`
-            );
-            // }
+            let currTeam = [];
+            if (!tdClass?.includes("team1") && !tdClass?.includes("team2"))
+              $(td).attr(
+                "style",
+                `color:#2e333d; 
+             text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+             1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff; 
+             padding: 12px;  text-align:center; font-size: ${
+               !tdClass?.includes("state") ? 32 : 16
+             }px; 
+             font-weight: bold; font-family: 'Titillium Web',Sans-Serif;`
+              );
+
+            $(td)
+              .find("img")
+              .each((_, img) => {
+                const src = $(img).attr("src");
+                const title = $(img).attr("title");
+                const srcTitle = src.split("/img/common/")[1].split(".")[0];
+                const newSrc = `/img/common/${srcTitle}.svg`;
+
+                teams.push(TEAM_COLORS[title]);
+
+                $(img).attr("src", newSrc);
+              });
           });
+
+        // Adjust the image paths if necessary
+
+        // Clear inline styles for <tr> elements
+        $(elem).find("tr").removeAttr("style");
 
         // result.push($.html(elem));
         result.push(
@@ -91,13 +117,12 @@ export default async function scraper(req, res) {
 
       const date = dayjs();
       const formattedDate = date.locale("ja").format("MM月DD日 ddd");
-      const rawDate = date.format("YYYYMM");
 
       res.statusCode = 200;
       return res.json({
         result,
         formattedDate,
-        rawDate,
+        teams,
       });
     } catch (e) {
       console.error("Error fetching and processing HTML:", e);
