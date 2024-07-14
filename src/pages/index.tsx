@@ -101,13 +101,12 @@ export default function Home() {
     const dateVal = value.split("-");
 
     setDates({
-      month: dayjs(dateVal[1]).format("MM"),
+      month: dateVal[1],
       day: dateVal[2],
     });
     handleRefetch();
   };
 
-  console.log("gamesList", gamesList);
   const formattedDate = dayjs()
     .set("year", 2024)
     .set("month", parseInt(dates.month, 10) - 1)
