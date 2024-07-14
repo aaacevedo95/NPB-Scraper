@@ -1,17 +1,14 @@
 import "bulma/css/bulma.min.css";
-import "@fortawesome/fontawesome-free/css/all.css";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Image from "next/image";
 import Head from "next/head";
 
+import PuffLoader from "react-spinners/PuffLoader";
 import { usePullToRefresh } from "use-pull-to-refresh";
 
-const STREAM_URL = "https://sports.tv.rakuten.co.jp/pacificleague/";
-
-const MAXIMUM_PULL_LENGTH = 600;
-const REFRESH_THRESHOLD = 180;
+import { getData } from "./api/apiHelpers";
+import { MAXIMUM_PULL_LENGTH, REFRESH_THRESHOLD, STREAM_URL } from "./const";
 
 export default function Home() {
   const [htmlContents, setHtmlContents] = useState([]);
@@ -20,7 +17,7 @@ export default function Home() {
   const [fetchNewData, setFetchNewData] = useState(true);
   const [teamColors, setTeamColors] = useState([]);
 
-  const { isRefreshing, pullPosition } = usePullToRefresh({
+  const { pullPosition } = usePullToRefresh({
     onRefresh: () => {
       handleRefetch();
     },
@@ -40,11 +37,11 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get("/api/scraper");
+    const setData = async () => {
+      const data = await getData();
 
-      if (res.status === 200) {
-        const { result = [], formattedDate, teams } = res.data;
+      if (data) {
+        const { result = [], formattedDate, teams } = data;
         setHtmlContents(result || []);
         setFormattedDate(formattedDate);
         setTeamColors(teams);
@@ -54,7 +51,7 @@ export default function Home() {
       setFetchNewData(false);
     };
 
-    if (fetchNewData) fetchData();
+    if (fetchNewData) setData();
   }, [fetchNewData]);
 
   const handleRefetch = () => {
@@ -69,6 +66,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
+
       {/* Header */}
       <nav
         className={`navbar is-fixed-top is-dark has-text-centered`}
@@ -106,8 +104,23 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      {!isLoading && (
-        <main className="m-5">
+      <main className="m-5">
+        {isLoading ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <PuffLoader
+              color="#006b5b"
+              loading={isLoading}
+              size={150}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          </div>
+        ) : (
           <div className="container">
             <p className="is-dark has-text-right" style={{ padding: 8 }}>
               {formattedDate}
@@ -128,12 +141,12 @@ export default function Home() {
                       style={{
                         height: "100%",
                         background: `linear-gradient(
-                      110deg, 
-                      ${teamColors[colorIndex1]} 0%, 
-                      ${teamColors[colorIndex1]} 50%, 
-                      ${teamColors[colorIndex2]}  50%, 
-                      ${teamColors[colorIndex2]}  100%
-  )`,
+                        110deg, 
+                        ${teamColors[colorIndex1]} 0%, 
+                        ${teamColors[colorIndex1]} 50%, 
+                        ${teamColors[colorIndex2]}  50%, 
+                        ${teamColors[colorIndex2]}  100%
+                      )`,
                       }}
                     >
                       <div dangerouslySetInnerHTML={{ __html: html }} />
@@ -143,8 +156,8 @@ export default function Home() {
               })}
             </div>
           </div>
-        </main>
-      )}
+        )}
+      </main>
     </div>
   );
 }

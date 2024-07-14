@@ -3,46 +3,15 @@ import Cors from "cors";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
 
-// Initialize CORS middleware
-export const initMiddleware = (middleware) => {
-  return (req, res) =>
-    new Promise((resolve, reject) => {
-      middleware(req, res, (result) => {
-        if (result instanceof Error) {
-          return reject(result);
-        }
-        return resolve(result);
-      });
-    });
-};
+import { initMiddleware } from "./apiHelpers";
+import { TEAM_COLORS } from "../const";
 
-// Example usage for CORS middleware
-initMiddleware(
-  Cors({
-    methods: ["GET", "HEAD", "POST"],
-  })
-);
 // Initialize CORS middleware
 const cors = initMiddleware(
   Cors({
     methods: ["GET", "HEAD", "POST"],
   })
 );
-
-const TEAM_COLORS = {
-  読売ジャイアンツ: "#F49C00", // Yomiuri Giants
-  横浜DeNAベイスターズ: "#004583", // Yokohama DeNA BayStars
-  中日ドラゴンズ: "#003377", // Chunichi Dragons
-  阪神タイガース: "#060606", // Hanshin Tigers
-  広島東洋カープ: "#E70012", // Hiroshima Toyo Carp
-  東京ヤクルトスワローズ: "#00A051", // Tokyo Yakult Swallows
-  北海道日本ハムファイターズ: "#016299", // Hokkaido Nippon-Ham Fighters
-  福岡ソフトバンクホークス: "#F5C700", // Fukuoka SoftBank Hawks
-  東北楽天ゴールデンイーグルス: "#943E10", // Tohoku Rakuten Golden Eagles
-  埼玉西武ライオンズ: "#AB0008", // Saitama Seibu Lions
-  千葉ロッテマリーンズ: "#E5E1E6", // Chiba Lotte Marines
-  "オリックス・バファローズ": "#000019", // Orix Buffaloes
-};
 
 export default async function scraper(req, res) {
   await cors(req, res); // Apply CORS middleware to your route
@@ -74,7 +43,6 @@ export default async function scraper(req, res) {
           .each((_, td) => {
             const tdClass = $(td).attr("class");
 
-            let currTeam = [];
             if (!tdClass?.includes("team1") && !tdClass?.includes("team2"))
               $(td).attr(
                 "style",
@@ -116,7 +84,7 @@ export default async function scraper(req, res) {
       });
 
       const date = dayjs();
-      const formattedDate = date.locale("ja").format("MM月DD日 ddd");
+      const formattedDate = date.locale("ja").format("MM月DD日 (ddd)");
 
       res.statusCode = 200;
       return res.json({
