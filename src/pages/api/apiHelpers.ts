@@ -1,7 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-export async function getData() {
-  const res = await fetch("/api/scraper");
+function buildUrl(endpoint: string, month?: string, day?: string): string {
+  if (endpoint === "getTodaysGames") {
+    return `/api/${endpoint}`;
+  }
+  const params = new URLSearchParams();
+  if (month) params.append("forMonth", month);
+  if (day) params.append("forDay", day);
+  return `/api/${endpoint}?${params.toString()}`;
+}
+
+// Function to fetch data from the given endpoint
+export async function getData(endpoint: string, month?: string, day?: string) {
+  const url = buildUrl(endpoint, month, day);
+  const res = await fetch(url);
 
   if (!res.ok) {
     throw new Error("Failed to fetch data");

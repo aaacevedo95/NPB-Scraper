@@ -1,0 +1,23 @@
+.game-box-font {
+  color: #2e333d;
+  text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff, 1px 1px #fff,
+    -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+  padding: 12px;
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  font-family: "Titillium Web", Sans-Serif;
+}
+
+/* Define a class */
+.date-input {
+  /* Your styles here */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+  padding: 0.5em;
+  width: 100%;
+  box-sizing: border-box;
+}
