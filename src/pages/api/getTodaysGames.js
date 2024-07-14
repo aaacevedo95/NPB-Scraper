@@ -44,7 +44,7 @@ export default async function getTodaysGames(req, res) {
             .map((_, score) => $(score).text())
             .get() || "";
 
-        if (team1 && team2 && score1 && score2 && place)
+        if (team1 && team2 && scores && state)
           games.push({
             gameLink,
             team1: SHORT_HAND_TEAM_NAMES[team1],
