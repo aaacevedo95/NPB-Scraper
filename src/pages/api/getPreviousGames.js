@@ -1,10 +1,7 @@
 import * as cheerio from "cheerio";
 import Cors from "cors";
-import dayjs from "dayjs";
-import "dayjs/locale/ja";
 
 import { initMiddleware } from "./apiHelpers";
-import { TEAM_COLORS } from "../../const";
 
 // Initialize CORS middleware
 const cors = initMiddleware(

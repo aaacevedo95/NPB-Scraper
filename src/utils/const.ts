@@ -43,11 +43,6 @@ export const TEAM_LINKS: { [key: string]: string } = {
   オリックス: "https://www.buffaloes.co.jp/", // Orix Buffaloes
 };
 
-export const STREAM_URL = "https://sports.tv.rakuten.co.jp/pacificleague/";
-
-export const MAXIMUM_PULL_LENGTH = 600;
-export const REFRESH_THRESHOLD = 180;
-
 export const SVG_URLS = [
   "/img/巨人.svg",
   "/img/DeNA.svg",
@@ -62,3 +57,8 @@ export const SVG_URLS = [
   "/img/ロッテ.svg",
   "/img/オリックス.svg",
 ];
+
+export const STREAM_URL = "https://sports.tv.rakuten.co.jp/pacificleague/";
+
+export const MAXIMUM_PULL_LENGTH = 600;
+export const REFRESH_THRESHOLD = 180;

@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja";
 
 import { initMiddleware } from "./apiHelpers";
-import { SHORT_HAND_TEAM_NAMES } from "../../const";
+import { SHORT_HAND_TEAM_NAMES } from "@/utils/const";
 
 // Initialize CORS middleware
 const cors = initMiddleware(
