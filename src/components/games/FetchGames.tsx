@@ -26,9 +26,23 @@ const FetchGames = () => {
     .set("date", parseInt(dates.day, 10))
     .format("YYYY-MM-DD");
 
+  const handleRefetch = () => {
+    setisLoading(true);
+    setFetchNewData(true);
+  };
+  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    const dateVal = value.split("-");
+    setDates({
+      month: dateVal[1],
+      day: dateVal[2],
+    });
+    handleRefetch();
+  };
+
   const { pullPosition } = usePullToRefresh({
     onRefresh: () => {
-      // The refetch logic is already in FetchGames component
+      handleRefetch();
     },
     maximumPullLength: MAXIMUM_PULL_LENGTH,
     refreshThreshold: REFRESH_THRESHOLD,
@@ -55,37 +69,27 @@ const FetchGames = () => {
     }
   }, [fetchNewData, dates]);
 
-  const handleRefetch = () => {
-    setisLoading(true);
-    setFetchNewData(true);
-  };
-
-  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    const dateVal = value.split("-");
-    setDates({
-      month: dateVal[1],
-      day: dateVal[2],
-    });
-    handleRefetch();
-  };
-
   return (
     <div>
-      <div className="has-text-centered is-size-7" style={{ paddingTop: 70 }}>
+      <div
+        className="has-text-centered is-size-7"
+        style={{ paddingTop: 70 }}
+        onClick={handleRefetch}
+      >
         {pullPosition > REFRESH_THRESHOLD
           ? "Release to refresh"
           : "Pull / Press to refresh scores"}
       </div>
 
+      <DateInput
+        formattedDate={formattedDate}
+        handleDateChange={handleDateChange}
+      />
+
       {isLoading ? (
         <Loader isLoading={isLoading} />
       ) : (
         <div className="container">
-          <DateInput
-            formattedDate={formattedDate}
-            handleDateChange={handleDateChange}
-          />
           <GamesList gamesList={gamesList} />
         </div>
       )}
