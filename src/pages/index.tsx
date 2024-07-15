@@ -15,6 +15,7 @@ import {
   MAXIMUM_PULL_LENGTH,
   REFRESH_THRESHOLD,
   STREAM_URL,
+  SVG_URLS,
   TEAM_COLORS,
   TEAM_LINKS,
 } from "../const";
@@ -119,6 +120,15 @@ export default function Home() {
         <title>NPBandy</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
+        {SVG_URLS.map((url) => (
+          <link
+            key={url}
+            rel="preload"
+            href={url}
+            as="image"
+            type="image/svg+xml"
+          />
+        ))}
       </Head>
 
       {/* Header */}
@@ -137,7 +147,7 @@ export default function Home() {
         </div>
         <div className="navbar-item">
           <a
-            className="button is-primary is-dark  "
+            className="button is-primary is-dark"
             href={STREAM_URL}
             style={{ textDecoration: "none" }}
           >
@@ -233,7 +243,7 @@ export default function Home() {
                             />
                           </a>
 
-                          <span>
+                          <span style={{ width: 100 }}>
                             {game.score1} - {game.score2}
                           </span>
 
