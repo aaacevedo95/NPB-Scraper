@@ -47,3 +47,18 @@ export const STREAM_URL = "https://sports.tv.rakuten.co.jp/pacificleague/";
 
 export const MAXIMUM_PULL_LENGTH = 600;
 export const REFRESH_THRESHOLD = 180;
+
+export const SVG_URLS = [
+  "/img/巨人.svg",
+  "/img/DeNA.svg",
+  "/img/中日.svg",
+  "/img/阪神.svg",
+  "/img/広島.svg",
+  "/img/ヤクルト.svg",
+  "/img/日本ハム.svg",
+  "/img/ソフトバンク.svg",
+  "/img/楽天.svg",
+  "/img/西武.svg",
+  "/img/ロッテ.svg",
+  "/img/オリックス.svg",
+];
