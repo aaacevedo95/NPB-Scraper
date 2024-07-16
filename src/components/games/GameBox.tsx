@@ -14,7 +14,7 @@ const GameBox = ({ game }: { game: GameType }) => (
       <div
         className={`box is-flex is-flex-direction-column is-align-items-center is-justify-content-center ${styles["game-box-font"]}`}
         style={{
-          height: "100%",
+          height: 210,
           background: `linear-gradient(110deg, 
           ${TEAM_COLORS[game.team1]} 0%, 
           ${TEAM_COLORS[game.team1]} 50%, 
