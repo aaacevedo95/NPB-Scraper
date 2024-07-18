@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true, // Enable React strict mode for improved error handling
   swcMinify: true, // Enable SWC minification for improved performance
+  basePath: "/projects/npbandy",
 };
 
 // Configuration object tells the next-pwa plugin
