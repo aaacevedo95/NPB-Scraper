@@ -9,7 +9,7 @@ const DateInput = ({
 }) => (
   <div style={{ padding: 20 }}>
     <input
-      className="input"
+      className="input has-text-centered"
       type="date"
       placeholder="Dark mode input"
       id="dateInput"

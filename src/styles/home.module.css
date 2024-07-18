@@ -8,16 +8,3 @@
   font-weight: bold;
   font-family: "Titillium Web", Sans-Serif;
 }
-
-/* Define a class */
-.date-input {
-  /* Your styles here */
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  border: 1px solid #dbdbdb;
-  border-radius: 5px;
-  padding: 0.5em;
-  width: 100%;
-  box-sizing: border-box;
-}

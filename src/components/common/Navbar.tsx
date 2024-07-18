@@ -7,7 +7,7 @@ const Navbar = () => (
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      borderBottom: "1px solid gray",
+      borderBottom: "1px solid #0ABAB5",
     }}
   >
     <div
