@@ -5,11 +5,16 @@ import { usePullToRefresh } from "use-pull-to-refresh";
 
 import { getData } from "@/pages/api/apiHelpers";
 import { isToday } from "@/utils/helper";
-import { MAXIMUM_PULL_LENGTH, REFRESH_THRESHOLD } from "@/utils/const";
+import {
+  MAXIMUM_PULL_LENGTH,
+  REFRESH_THRESHOLD,
+  STREAM_URL,
+} from "@/utils/const";
 
 import Loader from "../common/Loader";
 import DateInput from "../common/DateInput";
 import GamesList from "./GameList";
+import Card from "../common/Card";
 
 const FetchGames = () => {
   const [isLoading, setisLoading] = useState(true);
@@ -70,10 +75,10 @@ const FetchGames = () => {
   }, [fetchNewData, dates]);
 
   return (
-    <div>
+    <main className="m-4">
       <div
         className="has-text-centered is-size-7"
-        style={{ paddingTop: 70 }}
+        style={{ paddingTop: 45, paddingBottom: 30 }}
         onClick={handleRefetch}
       >
         {pullPosition > REFRESH_THRESHOLD
@@ -81,19 +86,29 @@ const FetchGames = () => {
           : "Pull / Press to refresh scores"}
       </div>
 
-      <DateInput
-        formattedDate={formattedDate}
-        handleDateChange={handleDateChange}
-      />
+      <Card title="Streams List">
+        <a
+          className="button is-primary is-dark"
+          href={STREAM_URL}
+          style={{ textDecoration: "none" }}
+        >
+          Pacific League Streams
+        </a>
+      </Card>
 
-      {isLoading ? (
-        <Loader isLoading={isLoading} />
-      ) : (
-        <div className="container">
+      <Card isExpandedDefault title="Games List">
+        <DateInput
+          formattedDate={formattedDate}
+          handleDateChange={handleDateChange}
+        />
+
+        {isLoading ? (
+          <Loader isLoading={isLoading} />
+        ) : (
           <GamesList gamesList={gamesList} />
-        </div>
-      )}
-    </div>
+        )}
+      </Card>
+    </main>
   );
 };
 

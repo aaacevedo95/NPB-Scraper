@@ -1,28 +1,24 @@
-import { STREAM_URL } from "@/utils/const";
 import Image from "next/image";
 
 const Navbar = () => (
   <nav
-    className="navbar is-fixed-top is-dark has-text-centered"
+    className="navbar is-fixed-top has-text-centered"
     style={{
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "center",
       alignItems: "center",
-      paddingRight: 8,
-      paddingLeft: 8,
+      borderBottom: "1px solid gray",
     }}
   >
-    <div className="navbar-brand" style={{ padding: 6 }}>
-      <Image src="/logo.png" width={50} height={40} alt="NPB Games" />
-    </div>
-    <div className="navbar-item">
-      <a
-        className="button is-primary is-dark"
-        href={STREAM_URL}
-        style={{ textDecoration: "none" }}
-      >
-        Pacific League Streams
-      </a>
+    <div
+      className="navbar-brand"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Image src="/logo.png" width={40} height={30} alt="NPB Games" />
     </div>
   </nav>
 );

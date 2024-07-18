@@ -9,7 +9,7 @@ const DateInput = ({
 }) => (
   <div style={{ padding: 20 }}>
     <input
-      className="input has-background-dark is-primary"
+      className="input"
       type="date"
       placeholder="Dark mode input"
       id="dateInput"
