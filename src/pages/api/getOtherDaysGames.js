@@ -10,7 +10,7 @@ const cors = initMiddleware(
   })
 );
 
-export default async function getPreviousGames(req, res) {
+export default async function getOtherDaysGames(req, res) {
   await cors(req, res); // Apply CORS middleware to your route
 
   if (req.method === "GET") {
@@ -43,16 +43,17 @@ export default async function getPreviousGames(req, res) {
         const score1 = game.find(".score1").text().trim() || "";
         const score2 = game.find(".score2").text().trim() || "";
         const place = game.find(".place").text().trim() || "";
+        const time = game.find(".time").text().trim() || "";
 
         // Only push the game object if all required data is present
-        if (team1 && team2 && score1 && score2 && place)
+        if (team1 && team2 && place)
           games.push({
             team1,
             team2,
             score1,
             score2,
             gameLink,
-            state: `(${place})  試合終了`,
+            state: `(${place}) ${time}`,
           });
       });
 

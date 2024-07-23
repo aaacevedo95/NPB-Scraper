@@ -59,7 +59,7 @@ const FetchGames = () => {
       let data;
 
       if (isToday(dates)) data = await getData("getTodaysGames");
-      else data = await getData("getPreviousGames", dates.month, dates.day);
+      else data = await getData("getOtherDaysGames", dates.month, dates.day);
 
       if (data) {
         const { games } = data;
