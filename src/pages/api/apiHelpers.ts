@@ -1,18 +1,29 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-function buildUrl(endpoint: string, month?: string, day?: string): string {
+function buildUrl(
+  endpoint: string,
+  year?: string,
+  month?: string,
+  day?: string
+): string {
   if (endpoint === "getTodaysGames") {
     return `/api/${endpoint}`;
   }
   const params = new URLSearchParams();
+  if (year) params.append("forYear", year);
   if (month) params.append("forMonth", month);
   if (day) params.append("forDay", day);
   return `/api/${endpoint}?${params.toString()}`;
 }
 
 // Function to fetch data from the given endpoint
-export async function getData(endpoint: string, month?: string, day?: string) {
-  const url = buildUrl(endpoint, month, day);
+export async function getData(
+  endpoint: string,
+  year?: string,
+  month?: string,
+  day?: string
+) {
+  const url = buildUrl(endpoint, year, month, day);
   const res = await fetch(url);
 
   if (!res.ok) {

@@ -21,12 +21,12 @@ const FetchGames = () => {
   const [fetchNewData, setFetchNewData] = useState(true);
   const [gamesList, setGamesList] = useState([]);
   const [dates, setDates] = useState({
+    year: dayjs().format("YYYY"),
     month: dayjs().format("MM"),
     day: dayjs().format("DD"),
   });
 
   const formattedDate = dayjs()
-    .set("year", 2024)
     .set("month", parseInt(dates.month, 10) - 1)
     .set("date", parseInt(dates.day, 10))
     .format("YYYY-MM-DD");
@@ -39,6 +39,7 @@ const FetchGames = () => {
     const { value } = event.target;
     const dateVal = value.split("-");
     setDates({
+      year: dateVal[0],
       month: dateVal[1],
       day: dateVal[2],
     });
@@ -59,7 +60,7 @@ const FetchGames = () => {
       let data;
 
       if (isToday(dates)) data = await getData("getTodaysGames");
-      else data = await getData("getOtherDaysGames", dates.month, dates.day);
+      else data = await getData("getOtherDaysGames",dates.year, dates.month, dates.day);
 
       if (data) {
         const { games } = data;
@@ -86,15 +87,7 @@ const FetchGames = () => {
           : "Pull / Press to refresh scores"}
       </div>
 
-      <Card title="Streams List">
-        <a
-          className="button is-primary is-dark"
-          href={STREAM_URL}
-          style={{ textDecoration: "none" }}
-        >
-          Pacific League Streams
-        </a>
-      </Card>
+   
 
       <Card isExpandedDefault title="Games List">
         <DateInput

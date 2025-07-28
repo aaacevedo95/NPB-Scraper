@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio";
 import Cors from "cors";
+import dayjs from "dayjs";
 import "dayjs/locale/ja";
 
 import { initMiddleware } from "./apiHelpers";
@@ -17,7 +18,7 @@ export default async function getTodaysGames(req, res) {
 
   if (req.method === "GET") {
     try {
-      const response = await fetch("https://npb.jp/games/2024/");
+      const response = await fetch(`https://npb.jp/games/${dayjs().year()}/`);
       const htmlString = await response.text();
 
       const $ = cheerio.load(htmlString);

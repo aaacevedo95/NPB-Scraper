@@ -16,7 +16,7 @@ const GameBox = ({ game }: { game: GameType }) => {
     >
       <div className="column is-12-mobile">
         <div
-          className={`box is-flex is-flex-direction-column is-align-items-center is-justify-content-center ${styles["game-box-font"]}`}
+          className={`box s-flex is-flex-direction-column is-align-items-center is-justify-content-center ${styles["game-box-font"]}`}
           style={{
             height: 210,
             background: `linear-gradient(110deg, 

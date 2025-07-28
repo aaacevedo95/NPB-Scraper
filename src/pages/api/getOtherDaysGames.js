@@ -11,14 +11,13 @@ const cors = initMiddleware(
 );
 
 export default async function getOtherDaysGames(req, res) {
-  await cors(req, res); // Apply CORS middleware to your route
-
+  await cors(req, res);
   if (req.method === "GET") {
     try {
-      const { forMonth, forDay } = req.query; // Note the use of req.query here
+      const { forYear, forMonth, forDay } = req.query;
 
       const response = await fetch(
-        `https://npb.jp/games/2024/schedule_${forMonth}_detail.html`
+        `https://npb.jp/games/${forYear}/schedule_${forMonth}_detail.html`
       );
 
       const htmlString = await response.text();
