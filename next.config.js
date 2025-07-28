@@ -1,5 +1,10 @@
-const isProd = process.env.NODE_ENV === "production";
+// Configuration options for Next.js
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+};
 
+// Configuration object tells the next-pwa plugin
 const withPWA = require("next-pwa")({
   dest: "public",
   disable: process.env.NODE_ENV === "development",
@@ -7,15 +12,5 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
 });
 
-const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  output: "export",
-  basePath: isProd ? "/NPB-Scraper" : "",
-  assetPrefix: isProd ? "/NPB-Scraper/" : "",
-  images: {
-    unoptimized: true,
-  },
-};
-
+// Export the combined configuration for Next.js with PWA support
 module.exports = withPWA(nextConfig);
